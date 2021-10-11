@@ -1,5 +1,9 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+<form id="new_post_form">
+    {% csrf_token %}
+    {{new_post}}
+    <input type="submit" value="Post">
+</form>
 {% endblock %}
