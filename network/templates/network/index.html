@@ -1,9 +1,21 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
-<form id="new_post_form">
-    {% csrf_token %}
-    {{new_post}}
-    <input type="submit" value="Post">
-</form>
+<div id="newPostView">
+    <form id="new_post_form">
+        {% csrf_token %}
+        {{new_post}}
+        <input type="submit" value="Post">
+    </form>
+</div>
+
+<div id="posts">
+    <h3>Posts</h3>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
 {% endblock %}

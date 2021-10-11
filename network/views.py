@@ -1,11 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from .models import User
+from .models import User, Post
 
 class newPostForm(forms.Form):
     new_post = forms.CharField(label='New Post', widget=forms.Textarea())
@@ -15,6 +18,12 @@ def index(request):
     return render(request, "network/index.html",{
         "new_post": newPostForm()
     })
+
+@login_required
+def posts(request):
+    posts = Post.objects.all()
+    posts = posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
 
 
 def login_view(request):
