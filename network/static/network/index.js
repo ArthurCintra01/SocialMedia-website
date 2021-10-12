@@ -16,10 +16,10 @@ function load_posts() {
             likes = posts[post].likes;
             let post_div = document.createElement('div');
             post_div.style = "margin: 10px; border: 1px solid #626262; padding: 20px;"
-            post_div.innerHTML = `<p>User: ${user}</p> 
-            <p>Content: ${content}</p> 
-            <p>Timestamp: ${timestamp}</p>
-            <p>Likes: ${likes} <button>Like</button></p>`;
+            post_div.innerHTML = `<p>Posted by: ${user}<br> 
+            ${content} <br>
+            Timestamp: ${timestamp}<br>
+            <button>Like</button> ${likes} </p>`;
             document.querySelector('#posts').append(post_div);
        }
    })

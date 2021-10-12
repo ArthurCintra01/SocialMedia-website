@@ -19,3 +19,6 @@ class Post(models.Model):
             "likes": self.likes,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p")
         }
+
+    def __str__(self):
+        return f"{self.user.username} at {self.timestamp.hour}:{self.timestamp.minute}"
