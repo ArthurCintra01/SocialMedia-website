@@ -7,23 +7,40 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
+import json
 
 from .models import User, Post
 
 class newPostForm(forms.Form):
-    new_post = forms.CharField(label=False, widget=forms.Textarea(attrs={'class':'formfield'}))
+    new_post = forms.CharField(label=False, widget=forms.Textarea(attrs={'id':'content', 'class':'formfield'}))
 
 
 def index(request):
-    return render(request, "network/index.html",{
-        "new_post": newPostForm()
-    })
+    return render(request, "network/index.html")
 
-@login_required
 def posts(request):
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
+
+@csrf_exempt
+@login_required
+def add(request):
+    # check if request method is post
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    # Get contents of post 
+    data = json.loads(request.body)
+    user= request.user
+    content= data.get("content", "")
+    # Create post
+    post = Post(
+        user = user,
+        content = content
+    )
+    post.save()
+    return JsonResponse({"message": "New post created"}, status=201)
+
 
 
 def login_view(request):

@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', function(){
-   fetch('/network/posts')
-   .then(response => response.json())
-   .then(posts => {
+    document.querySelector('#new_post_form').addEventListener('submit', create_post);
+    document.querySelector('#content').value = '';
+    // by default load posts
+    load_posts();
+});
+
+function load_posts() {
+    fetch('/network/posts')
+    .then(response => response.json())
+    .then(posts => {
         for(const post in posts){
             user = posts[post].user;
             content = posts[post].content;
@@ -16,10 +23,21 @@ document.addEventListener('DOMContentLoaded', function(){
             document.querySelector('#posts').append(post_div);
        }
    })
-   const form = document.getElementById('#new_post_form'); 
-   form.addEventListener('submit', create_post);
-});
+}
 
-function create_post(){
+function create_post(event){
+    event.preventDefault();
+    // get content from form
+    const content = document.querySelector('#content').value
     //send post request to the api to add new post to the database
+    fetch('/add',{
+        method: 'POST',
+        body: JSON.stringify({
+            content: content
+        })
+    })
+    .then(response => response.json())
+    .then( () => {
+      location.reload();
+    });
 }

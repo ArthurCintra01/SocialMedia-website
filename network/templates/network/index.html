@@ -6,8 +6,7 @@
 <div id="newPostView">
     <h3>New Post</h3>
     <form id="new_post_form">
-        {% csrf_token %}
-        {{new_post}}
+        <textarea id='content' class='formfield'></textarea>
         <input id="submit" type="submit" value="Post">
     </form>
 </div>
