@@ -2,24 +2,58 @@
 {% load static %}
 
 {% block body %}
+<h3 style="margin: 20px;">All Posts</h3>
 <div id="newPostView">
+    <h3>New Post</h3>
     <form id="new_post_form">
         {% csrf_token %}
         {{new_post}}
-        <input type="submit" value="Post">
+        <input id="submit" type="submit" value="Post">
     </form>
 </div>
 
 <div id="posts">
-    <h3>Posts</h3>
+    <h3 style="margin-left:10px;">Posts</h3>
 </div>
 
 {% endblock %}
 
 {% block style %}
     <style>
+        
+        body{
+            background-color: #242424;
+            color: white;
+        }
         #posts{
             margin: 20px;
+        }
+        #new_post_form{
+            display: flex;
+        }
+        #newPostView{
+            padding: 20px;
+            border: 1px solid #626262;
+            margin: 30px;
+        }
+        .formfield{
+            font-size: 1.2em;
+            color: white;
+            outline: none;
+            border: 1px solid #626262;
+            background-color: #4a4a4a;
+            width: 600px;
+            height: 100px;
+        }
+        #submit{
+            color: white;
+            padding: 5px;
+            background-color: #4d90fe;
+            border:1px solid #4d90fe; 
+            border-radius: 10px;
+            margin-top: 60px;
+            margin-left: 5px;
+            
         }
     </style>
 {% endblock %}

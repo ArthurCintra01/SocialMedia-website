@@ -11,7 +11,7 @@ from django import forms
 from .models import User, Post
 
 class newPostForm(forms.Form):
-    new_post = forms.CharField(label='New Post', widget=forms.Textarea())
+    new_post = forms.CharField(label=False, widget=forms.Textarea(attrs={'class':'formfield'}))
 
 
 def index(request):
