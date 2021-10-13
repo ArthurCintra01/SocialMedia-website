@@ -17,10 +17,11 @@ function load_posts() {
             let post_div = document.createElement('div');
             post_div.style = "margin: 10px; border: 1px solid #626262; padding: 20px;"
             post_div.innerHTML = `<p>Posted by: ${user}<br> 
-            ${content} <br>
-            Timestamp: ${timestamp}<br>`;
+            <textarea id="content_area" disabled=true>${content} </textarea><br>
+            ${timestamp}<br>`;
             let like_btn = document.createElement('button')
             like_btn.innerHTML = `like: ${likes}`
+            like_btn.classList = "btn btn-primary";
             like_btn.addEventListener('click', () => like_post(posts[post]));
             post_div.append(like_btn);
             document.querySelector('#posts').append(post_div);

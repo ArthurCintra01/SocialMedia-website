@@ -8,7 +8,7 @@
         <h3>New Post</h3>
         <form id="new_post_form">
             <textarea id='content' class='formfield'></textarea>
-            <input id="submit" type="submit" value="Post">
+            <input id="submit" class="btn btn-primary" type="submit" value="Post">
         </form>
     </div>
 {% endif %}
@@ -20,7 +20,17 @@
 
 {% block style %}
     <style>
-        
+        #content_area{
+            color:white; 
+            background-color:#4a4a4a; 
+            border: 0.5px solid #626262;
+            border-radius: 5px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            height: 100px;
+            width: 500px;
+        }
+
         body{
             background-color: #242424;
             color: white;
@@ -41,15 +51,13 @@
             color: white;
             outline: none;
             border: 1px solid #626262;
+            border-radius: 5px;
             background-color: #4a4a4a;
             width: 600px;
             height: 100px;
         }
         #submit{
-            color: white;
             padding: 5px;
-            background-color: #4d90fe;
-            border:1px solid #4d90fe; 
             border-radius: 10px;
             margin-top: 60px;
             margin-left: 5px;

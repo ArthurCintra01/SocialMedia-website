@@ -59,8 +59,6 @@ def like_post(request, post_id):
         return HttpResponse(status=204)
 
 
-
-
 def login_view(request):
     if request.method == "POST":
 
