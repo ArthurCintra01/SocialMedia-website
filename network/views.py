@@ -36,10 +36,28 @@ def add(request):
     # Create post
     post = Post(
         user = user,
-        content = content
+        content = content,
     )
     post.save()
     return JsonResponse({"message": "New post created"}, status=201)
+
+@csrf_exempt
+def like_post(request, post_id):
+    if request.method != 'PUT':
+        return JsonResponse({"error": "PUT request required."}, status=400)
+    else:
+        post = Post.objects.get(pk=post_id)
+        user = request.user
+        data = json.loads(request.body)
+        if data.get("like") == True:
+            if user in post.usersLiked.all():
+                return HttpResponse(status=204)
+            else:
+                post.usersLiked.add(user)
+                post.likes = post.likes + 1
+        post.save()
+        return HttpResponse(status=204)
+
 
 
 

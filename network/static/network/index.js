@@ -18,8 +18,11 @@ function load_posts() {
             post_div.style = "margin: 10px; border: 1px solid #626262; padding: 20px;"
             post_div.innerHTML = `<p>Posted by: ${user}<br> 
             ${content} <br>
-            Timestamp: ${timestamp}<br>
-            <button>Like</button> ${likes} </p>`;
+            Timestamp: ${timestamp}<br>`;
+            let like_btn = document.createElement('button')
+            like_btn.innerHTML = `like: ${likes}`
+            like_btn.addEventListener('click', () => like_post(posts[post]));
+            post_div.append(like_btn);
             document.querySelector('#posts').append(post_div);
        }
    })
@@ -38,6 +41,18 @@ function create_post(event){
     })
     .then(response => response.json())
     .then( () => {
-      location.reload();
+        location.reload();
     });
+}
+
+function like_post(post){
+    fetch(`/like_post/${post.id}`,{
+        method: 'PUT',
+        body: JSON.stringify({
+            like: true
+        })
+    })
+    .then(() => {
+        location.reload();
+    })
 }
