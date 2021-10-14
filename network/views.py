@@ -40,23 +40,33 @@ def add(request):
     )
     post.save()
     return JsonResponse({"message": "New post created"}, status=201)
+        
 
+@login_required
 @csrf_exempt
-def like_post(request, post_id):
-    if request.method != 'PUT':
-        return JsonResponse({"error": "PUT request required."}, status=400)
-    else:
+def post(request, post_id):
+    try:
         post = Post.objects.get(pk=post_id)
         user = request.user
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    if request.method == 'PUT':
         data = json.loads(request.body)
         if data.get("like") == True:
             if user in post.usersLiked.all():
-                return HttpResponse(status=204)
+                post.usersLiked.remove(user)
+                post.likes = post.likes - 1
             else:
                 post.usersLiked.add(user)
                 post.likes = post.likes + 1
         post.save()
         return HttpResponse(status=204)
+
+    if request.method == 'GET':
+        return JsonResponse(post.serialize())
+
+
 
 
 def login_view(request):

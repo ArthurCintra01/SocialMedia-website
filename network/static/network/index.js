@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function(){
     load_posts();
 });
 
+function OnInput() {
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px";
+  }
+
 function load_posts() {
     fetch('/network/posts')
     .then(response => response.json())
@@ -26,6 +31,12 @@ function load_posts() {
             like_btn.id = "like_button";
             like_btn.addEventListener('click', () => like_post(posts[post]));
             post_div.append(like_btn);
+            // for resizing the text areas
+            const tx = document.getElementsByTagName("textarea");
+            for (let i = 0; i < tx.length; i++) {
+                tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+                tx[i].addEventListener("input", OnInput, false);
+            }
             document.querySelector('#posts').append(post_div);
        }
    })
@@ -49,7 +60,7 @@ function create_post(event){
 }
 
 function like_post(post){
-    fetch(`/like_post/${post.id}`,{
+    fetch(`/post/${post.id}`,{
         method: 'PUT',
         body: JSON.stringify({
             like: true
