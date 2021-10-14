@@ -46,7 +46,6 @@ function load_posts() {
             }
             post_div.append(like_btn);
             document.querySelector('#posts').append(post_div);
-            document.querySelector('#profile_page').style.display = 'none';
             document.querySelector('#newPostView').style.display = 'block';
             document.querySelector('#posts').style.display = 'block';
        }
@@ -65,21 +64,21 @@ function create_post(event){
         })
     })
     .then(response => response.json())
-    .then( () => {
+    .then(() => {
         location.reload();
     });
 }
 
 function like_post(post){
-    fetch(`/post/${post.id}`,{
-        method: 'PUT',
-        body: JSON.stringify({
-            like: true
+        fetch(`/post/${post.id}`,{
+            method: 'PUT',
+            body: JSON.stringify({
+                like: true
+            })
         })
-    })
-    .then(() => {
-        location.reload();
-    })
+        .then(() => {
+            location.reload();
+        });
 }
 
 function profile_page(user){

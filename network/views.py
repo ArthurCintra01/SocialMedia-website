@@ -42,7 +42,7 @@ def user(request, username):
 def profile_page(request, username):
     user = User.objects.get(username=username)
     return render(request, "network/profilepage.html",{
-        "user": user
+        "user": username
     })
         
         
