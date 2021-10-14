@@ -11,7 +11,7 @@ function OnInput() {
   }
 
 function load_posts() {
-    document.querySelector('h2').innerHTML = `All Posts`;
+    document.querySelector('h2').innerHTML = 'All Posts';
     fetch('/network/posts')
     .then(response => response.json())
     .then(posts => {
@@ -83,16 +83,6 @@ function like_post(post){
 }
 
 function profile_page(user){
-    fetch(`/user/${user}`)
-    .then(response => response.json())
-    .then(profile => {
-        followers = profile.followers;
-        document.querySelector('#profile_page').innerHTML = `<strong>followers: </strong> ${followers}`
-    })
-    document.querySelector('h2').innerHTML = `${user}`
-    //get followers and following users
-    
-    document.querySelector('#profile_page').style.display = 'block';
-    document.querySelector('#newPostView').style.display = 'none';
-    document.querySelector('#posts').style.display = 'none';
+    fetch(`/profile/${user}`)
+    document.location.href = `/profile/${user}`;
 }

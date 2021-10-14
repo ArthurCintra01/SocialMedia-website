@@ -34,9 +34,16 @@ def user(request, username):
 
     if request.method == 'GET':
         return JsonResponse(user.serialize())
+
     # to follow/ unfollow user
     # if request.method == 'PUT':
     #     data = json.loads(request.body)
+
+def profile_page(request, username):
+    user = User.objects.get(username=username)
+    return render(request, "network/profilepage.html",{
+        "user": user
+    })
         
         
 

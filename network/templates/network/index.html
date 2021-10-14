@@ -16,98 +16,92 @@
 <div id="posts">
 </div>
 
-<div id="profile_page">
-</div>
-
 {% endblock %}
 
 {% block style %}
-    <style>
-        #profile_page{
-            border: 0.5px solid #626262;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
+<style>
 
-        #content_area{
-            padding: 10px;
-            color:white; 
-            background-color:#21262c; 
-            border: 0.5px solid #626262;
-            border-radius: 10px;
-            margin-top: 5px;
-            width: 100%;
-        }
+    #content_area{
+        padding: 10px;
+        color:white; 
+        background-color:#21262c; 
+        border: 0.5px solid #626262;
+        border-radius: 10px;
+        margin-top: 5px;
+        width: 100%;
+    }
 
-        body{
-            background-color: rgb(17, 17, 34);
-            color: white;
-        }
-        #posts{
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
-        #post_div{
-            background-color: #15181c;
-            margin: 10px;
-            border: 1px solid #626262;
-            border-radius: 10px;
-            padding: 20px;
-        }
-        #username{
-            font-size: 1.6em;
-        }
-        #username:hover{
-            font-size: 1.6em;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        #timestamp{
-            font-size: 0.9em;
-            margin-left: 83%;
-        }
-        #new_post_form{
-            display: flex;
-        }
-        #newPostView{
-            background-color: #15181c;
-            padding: 20px;
-            border: 1px solid #626262;
-            border-radius: 10px;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-            margin-bottom: 20px;
-        }
-        .formfield{
-            font-size: 1.2em;
-            color: white;
-            outline: none;
-            border: 1px solid #626262;
-            border-radius: 5px;
-            background-color: #21262c;
-            width: 100%;
-        }
-        #submit{
-            padding: 5px;
-            border-radius: 10px;
-            margin-top: 60px;
-            margin-left: 5px;
-        }
-        #like_button{
-            padding: 5px;
-            color: white;
-            border: 1px solid #626262;
-            border-radius: 10px;
-            background-color: #21262c;
-        }
-        #like_button:hover{
-            color: rgb(219, 65, 65);
-        }
-    </style>
+    body{
+        background-color: rgb(17, 17, 34);
+        color: white;
+    }
+    #posts{
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+    #post_div{
+        background-color: #15181c;
+        margin: 10px;
+        border: 1px solid #626262;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    #username{
+        font-size: 1.6em;
+    }
+    #username:hover{
+        font-size: 1.6em;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    #timestamp{
+        font-size: 0.9em;
+        margin-left: 83%;
+    }
+    #new_post_form{
+        display: flex;
+    }
+    #newPostView{
+        background-color: #15181c;
+        padding: 20px;
+        border: 1px solid #626262;
+        border-radius: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        margin-bottom: 20px;
+    }
+    .formfield{
+        font-size: 1.2em;
+        color: white;
+        outline: none;
+        border: 1px solid #626262;
+        border-radius: 5px;
+        background-color: #21262c;
+        width: 100%;
+    }
+    #submit{
+        padding: 5px;
+        border-radius: 10px;
+        margin-top: 60px;
+        margin-left: 5px;
+    }
+    #like_button{
+        padding: 5px;
+        color: white;
+        border: 1px solid #626262;
+        border-radius: 10px;
+        background-color: #21262c;
+    }
+    #like_button:hover{
+        color: rgb(219, 65, 65);
+    }
+</style>
+
 {% endblock %}
+
+
 
 {% block script %}
     <script src="{% static 'network/index.js' %}"></script>

@@ -1,0 +1,29 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<h2 style="text-align: center; margin: 20px;">{{user}}</h2>
+
+<div id="info"></div>
+{% endblock %}
+{% block style %}
+<style>
+    body{
+        background-color: rgb(17, 17, 34);
+        color: white;
+    }
+    #info{
+        border: 1px solid #626262;
+        border-radius: 20px;
+        padding: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        height: 800px;
+    }
+</style>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'network/profile.js' %}"></script>
+{% endblock %}
