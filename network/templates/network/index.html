@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-<h2 style="margin: 20px;">All Posts</h2>
+<h2 style="text-align: center; margin: 20px;">All Posts</h2>
 {% if user.is_authenticated %}
     <div id="newPostView">
         <h3>New Post</h3>
@@ -22,29 +22,49 @@
     <style>
         #content_area{
             color:white; 
-            background-color:#4a4a4a; 
+            background-color:#21262c; 
             border: 0.5px solid #626262;
-            border-radius: 5px;
+            border-radius: 10px;
             margin-top: 5px;
-            margin-bottom: 5px;
-            height: 100px;
-            width: 500px;
+            height: 150px;
+            width: 100%;
         }
 
         body{
-            background-color: #242424;
+            background-color: rgb(17, 17, 34);
             color: white;
         }
         #posts{
-            margin: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+        #post_div{
+            background-color: #15181c;
+            margin: 10px;
+            border: 1px solid #626262;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        #user{
+            font-size: 1.4em;
+        }
+        #timestamp{
+            font-size: 0.9em;
+            margin-left: 83%;
         }
         #new_post_form{
             display: flex;
         }
         #newPostView{
+            background-color: #15181c;
             padding: 20px;
             border: 1px solid #626262;
-            margin: 30px;
+            border-radius: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            margin-bottom: 20px;
         }
         .formfield{
             font-size: 1.2em;
@@ -52,7 +72,7 @@
             outline: none;
             border: 1px solid #626262;
             border-radius: 5px;
-            background-color: #4a4a4a;
+            background-color: #21262c;
             width: 600px;
             height: 100px;
         }
@@ -61,7 +81,13 @@
             border-radius: 10px;
             margin-top: 60px;
             margin-left: 5px;
-            
+        }
+        #like_button{
+            padding: 5px;
+            color: white;
+            border: 1px solid #626262;
+            border-radius: 10px;
+            background-color: #21262c;
         }
     </style>
 {% endblock %}
