@@ -26,6 +26,20 @@ def posts(request):
             post.liked = True
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
+def user(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "User not found."}, status=404)
+
+    if request.method == 'GET':
+        return JsonResponse(user.serialize())
+    # to follow/ unfollow user
+    # if request.method == 'PUT':
+    #     data = json.loads(request.body)
+        
+        
+
 @csrf_exempt
 @login_required
 def add(request):

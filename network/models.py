@@ -6,6 +6,13 @@ class User(AbstractUser):
     followers = models.ManyToManyField("User", blank=True, related_name="user_followers")
     following = models.ManyToManyField("User", blank=True, related_name="user_following")
 
+    def serialize(self):
+        return {
+            "followers": [user.username for user in self.followers.all()],
+            "following": [user.username for user in self.following.all()]
+        }
+        
+
 class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.RESTRICT, related_name="posts")
     content = models.TextField()
