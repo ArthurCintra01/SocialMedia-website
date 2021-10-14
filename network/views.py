@@ -21,6 +21,9 @@ def index(request):
 def posts(request):
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
+    for post in posts:
+        if request.user in post.usersLiked.all():
+            post.liked = True
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 @csrf_exempt

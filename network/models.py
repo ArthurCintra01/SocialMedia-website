@@ -12,6 +12,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     usersLiked = models.ManyToManyField("User", blank=True, related_name="liked")
+    liked = models.BooleanField(default=False)
 
     def serialize(self):
         return {
@@ -20,6 +21,7 @@ class Post(models.Model):
             "usersLiked": [user.username for user in self.usersLiked.all()],
             "content": self.content,
             "likes": self.likes,
+            "liked": self.liked,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p")
         }
 
