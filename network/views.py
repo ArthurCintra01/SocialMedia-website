@@ -69,11 +69,11 @@ def user(request, username):
         user = User.objects.get(username=username)
         data = json.loads(request.body)
         if data.get("follow") == True:
-            if current_user in user.following.all():
+            if current_user in user.followers.all():
                 user.followers.remove(current_user)
                 current_user.following.remove(user)
                 user.current_user_follows = False
-            elif current_user not in user.following.all():
+            elif current_user not in user.followers.all():
                 current_user.following.add(user)
                 user.followers.add(current_user)
                 user.current_user_follows = True
