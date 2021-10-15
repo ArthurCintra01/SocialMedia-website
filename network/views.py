@@ -81,9 +81,11 @@ def post(request, post_id):
             if user in post.usersLiked.all():
                 post.usersLiked.remove(user)
                 post.likes = post.likes - 1
+                post.liked = False
             else:
                 post.usersLiked.add(user)
                 post.likes = post.likes + 1
+                post.liked = True
         post.save()
         return HttpResponse(status=204)
 
