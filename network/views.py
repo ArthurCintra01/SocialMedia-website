@@ -26,6 +26,17 @@ def posts(request, username):
             if request.user in post.usersLiked.all():
                 post.liked = True
         return JsonResponse([post.serialize() for post in posts], safe=False)
+    elif username == "following":
+        following_posts = []
+        user = request.user
+        posts = Post.objects.all()
+        for post in posts:
+            if post.user in user.following.all():
+                following_posts.append(post)
+        for post in following_posts:
+            if request.user in post.usersLiked.all():
+                post.liked = True
+        return JsonResponse([post.serialize() for post in following_posts], safe=False)
     else:
         postsUser = User.objects.get(username = username)
         posts = Post.objects.filter(user = postsUser).all() 

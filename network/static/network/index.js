@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(){
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
+    document.querySelector('#following').addEventListener('click', () => load_posts('following'));
     // by default load posts
-    load_posts();
+    load_posts('all');
 });
 
 function OnInput() {
@@ -10,9 +11,11 @@ function OnInput() {
     this.style.height = (this.scrollHeight) + "px";
   }
 
-function load_posts() {
-    document.querySelector('h2').innerHTML = 'All Posts';
-    fetch('/posts/all')
+function load_posts(page) {
+    if (page == 'following'){
+        document.querySelector('h2').innerHTML = 'Posts from people you follow';
+    }
+    fetch(`/posts/${page}`)
     .then(response => response.json())
     .then(posts => {
         for(const post in posts){
@@ -22,7 +25,7 @@ function load_posts() {
             likes = posts[post].likes;
             let post_div = document.createElement('div');
             post_div.id = "post_div";
-            post_div.innerHTML = `<div onclick="profile_page(user)" id="username"><strong>${user}</strong></div> 
+            post_div.innerHTML = `<div onclick="profile_page('${user}')" id="username"><strong>${user}</strong></div> 
             <textarea id="content_area" disabled=true>${content} </textarea><br>
             <span id="timestamp">${timestamp}</span><br>`;
             let like_btn = document.createElement('button')
@@ -47,8 +50,9 @@ function load_posts() {
             document.querySelector('#posts').append(post_div);
             document.querySelector('#newPostView').style.display = 'block';
             document.querySelector('#posts').style.display = 'block';
-       }
-   })
+        }
+    })
+
 }
 
 function create_post(event){
