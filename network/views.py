@@ -49,7 +49,6 @@ def posts(request, username):
 
 
 @csrf_exempt
-@login_required
 def user(request, username):
     try:
         user = User.objects.get(username=username)
@@ -58,9 +57,9 @@ def user(request, username):
 
     if request.method == 'GET':
         if request.user in user.following.all():
-            user.current_user_following = False
+            user.current_user_follows = True
         else:
-            user.current_user_following = True
+            user.current_user_follows = False
         user.save()
 
         return JsonResponse(user.serialize())
@@ -70,14 +69,15 @@ def user(request, username):
         current_user = request.user
         data = json.loads(request.body)
         if data.get("follow") == True:
-            if request.user in user.following.all():
+            if current_user in user.following.all():
                 current_user.following.remove(user)
-                user.followers.remove(request.user)
+                user.followers.remove(current_user)
                 user.current_user_follows = False
             else:
                 current_user.following.add(user)
-                user.followers.add(request.user)
+                user.followers.add(current_user)
                 user.current_user_follows = True
+        current_user.save()
         user.save()
         return HttpResponse(status=204)
 

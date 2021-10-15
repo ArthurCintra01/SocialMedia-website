@@ -3,14 +3,7 @@
 
 {% block body %}
 <h2 style="text-align: center; margin: 20px;">{{profile_user}}</h2>
-{% if user == profile_user %}
-<div id="alt_info">
-    <div>followers: {{profile_user.followers.count}}</div>
-    <div>following: {{profile_user.following.count}}</div>
-</div>
-{% else %}
 <div id="info"></div>
-{% endif %}
 <h2 style="text-align: center; margin: 20px;">Latest posts from {{profile_user}}</h2>
 <div id="user_posts"></div>
 {% endblock %}

@@ -10,10 +10,11 @@ document.addEventListener('DOMContentLoaded', function(){
         }else{
             followingbtn = "follow";
         }
-        document.querySelector('#info').innerHTML = `<div id="followers_div">followers: ${followers.length} <button onclick="follow('${user}')" id="follow_btn">${followingbtn}</button></div> 
+        document.querySelector('#info').innerHTML = `<div id="followers_div">followers: ${followers.length}</div> 
+        <button onclick="follow('${user}')" id="follow_btn">${followingbtn}</button>
         <div>following: ${following.length}</div>`;
     })
-    load_posts();
+    load_posts(user);
 });
 
 function follow(username){
@@ -24,13 +25,14 @@ function follow(username){
         })
     })
     .then(()=>{
-            //document.querySelector('#followers_div').innerHTML = `followers: ${followers.length}`;
-            follow_btn = document.querySelector('button').innerHTML
-            if( follow_btn == 'follow'){
-                document.querySelector('button').innerHTML = 'unfollow';
-            }else{
-                document.querySelector('button').innerHTML = 'follow';
-            }
+        location.reload();
+        //document.querySelector('#followers_div').innerHTML = `followers: ${followers.length}`;
+        // follow_btn = document.querySelector('button').innerHTML
+        // if( follow_btn == 'follow'){
+        //     document.querySelector('button').innerHTML = 'unfollow';
+        // }else{
+        //     document.querySelector('button').innerHTML = 'follow';
+        // }
     })
 }
 
@@ -41,7 +43,7 @@ function OnInput() {
     this.style.height = (this.scrollHeight) + "px";
   }
 
-function load_posts(){
+function load_posts(user){
     fetch(`/posts/${user}`)
     .then(response => response.json())
     .then(posts => {
