@@ -66,10 +66,12 @@ def user(request, username):
         user.save()
         return HttpResponse(status=204)
 
+@login_required
 def profile_page(request, username):
     user = User.objects.get(username=username)
     return render(request, "network/profilepage.html",{
-        "user": user
+        "profile_user": user,
+        "user": request.user
     })
         
         

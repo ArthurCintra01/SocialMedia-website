@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block body %}
-<h2 style="text-align: center; margin: 20px;">{{user}}</h2>
+<h2 style="text-align: center; margin: 20px;">{{profile_user}}</h2>
 
 <div id="info"></div>
-<h2 style="text-align: center; margin: 20px;">Latest posts from {{user}}</h2>
+<h2 style="text-align: center; margin: 20px;">Latest posts from {{profile_user}}</h2>
 <div id="user_posts"></div>
 {% endblock %}
 {% block style %}
@@ -22,6 +22,13 @@
         margin-right: auto;
         width: 50%;
         height: 100%;
+    }
+    #follow_btn{
+        padding: 5px;
+        color: white;
+        border: 0.5px solid #626262;
+        border-radius: 10px;
+        background-color: rgb(17, 17, 34);
     }
     #user_posts{
         margin-left: auto;
