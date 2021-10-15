@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-    user = document.querySelector('h2').innerHTML
+    user = document.querySelector('#user_profile').innerHTML
     fetch(`/user/${user}`)
     .then(response => response.json())
     .then(profile => {

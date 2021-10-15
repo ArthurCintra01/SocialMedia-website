@@ -56,24 +56,24 @@ def user(request, username):
         return JsonResponse({"error": "User not found."}, status=404)
 
     if request.method == 'GET':
-        if request.user in user.following.all():
+        if request.user in user.followers.all():
             user.current_user_follows = True
         else:
             user.current_user_follows = False
-        user.save()
 
         return JsonResponse(user.serialize())
 
     # to follow/ unfollow user
     if request.method == 'PUT':
         current_user = request.user
+        user = User.objects.get(username=username)
         data = json.loads(request.body)
         if data.get("follow") == True:
             if current_user in user.following.all():
-                current_user.following.remove(user)
                 user.followers.remove(current_user)
+                current_user.following.remove(user)
                 user.current_user_follows = False
-            else:
+            elif current_user not in user.following.all():
                 current_user.following.add(user)
                 user.followers.add(current_user)
                 user.current_user_follows = True
@@ -82,6 +82,7 @@ def user(request, username):
         return HttpResponse(status=204)
 
 @login_required
+@csrf_exempt
 def profile_page(request, username):
     user = User.objects.get(username=username)
     return render(request, "network/profilepage.html",{
