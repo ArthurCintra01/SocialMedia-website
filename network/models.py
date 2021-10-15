@@ -5,11 +5,13 @@ from django.db import models
 class User(AbstractUser):
     followers = models.ManyToManyField("User", blank=True, related_name="user_followers")
     following = models.ManyToManyField("User", blank=True, related_name="user_following")
+    current_user_follows = models.BooleanField(default=False)
 
     def serialize(self):
         return {
             "followers": [user.username for user in self.followers.all()],
-            "following": [user.username for user in self.following.all()]
+            "following": [user.username for user in self.following.all()],
+            "current_user_follows": self.current_user_follows
         }
         
 

@@ -5,11 +5,36 @@ document.addEventListener('DOMContentLoaded', function(){
     .then(profile => {
         followers = profile.followers;
         following = profile.following;
-        document.querySelector('#info').innerHTML = `<div>followers: ${followers.length} <button id="follow_btn">follow</button></div>
+        if (profile.current_user_follows == true){
+            followingbtn = "unfollow";
+        }else{
+            followingbtn = "follow";
+        }
+        document.querySelector('#info').innerHTML = `<div id="followers_div">followers: ${followers.length} <button onclick="follow('${user}')" id="follow_btn">${followingbtn}</button></div> 
         <div>following: ${following.length}</div>`;
     })
     load_posts();
 });
+
+function follow(username){
+    fetch(`/user/${username}`,{
+        method: 'PUT',
+        body: JSON.stringify({
+            follow: true
+        })
+    })
+    .then(()=>{
+            //document.querySelector('#followers_div').innerHTML = `followers: ${followers.length}`;
+            follow_btn = document.querySelector('button').innerHTML
+            if( follow_btn == 'follow'){
+                document.querySelector('button').innerHTML = 'unfollow';
+            }else{
+                document.querySelector('button').innerHTML = 'follow';
+            }
+    })
+}
+
+
 
 function OnInput() {
     this.style.height = "auto";

@@ -36,6 +36,7 @@ def posts(request, username):
         for post in following_posts:
             if request.user in post.usersLiked.all():
                 post.liked = True
+            post.save()
         return JsonResponse([post.serialize() for post in following_posts], safe=False)
     else:
         postsUser = User.objects.get(username = username)
@@ -46,23 +47,37 @@ def posts(request, username):
                 post.liked = True
         return JsonResponse([post.serialize() for post in posts], safe=False)
 
+
+@csrf_exempt
+@login_required
 def user(request, username):
     try:
         user = User.objects.get(username=username)
-    except Post.DoesNotExist:
+    except User.DoesNotExist:
         return JsonResponse({"error": "User not found."}, status=404)
 
     if request.method == 'GET':
+        if request.user in user.following.all():
+            user.current_user_following = False
+        else:
+            user.current_user_following = True
+        user.save()
+
         return JsonResponse(user.serialize())
 
     # to follow/ unfollow user
     if request.method == 'PUT':
+        current_user = request.user
         data = json.loads(request.body)
         if data.get("follow") == True:
             if request.user in user.following.all():
-                user.following.remove(request.user)
+                current_user.following.remove(user)
+                user.followers.remove(request.user)
+                user.current_user_follows = False
             else:
-                user.following.add(request.user)
+                current_user.following.add(user)
+                user.followers.add(request.user)
+                user.current_user_follows = True
         user.save()
         return HttpResponse(status=204)
 
@@ -119,6 +134,11 @@ def post(request, post_id):
         return HttpResponse(status=204)
 
     if request.method == 'GET':
+        if user in post.usersLiked.all():
+            post.liked = True
+        else: 
+            post.liked = False
+        post.save()
         return JsonResponse(post.serialize())
 
 
