@@ -5,6 +5,8 @@
 <h2 style="text-align: center; margin: 20px;">{{user}}</h2>
 
 <div id="info"></div>
+<h2 style="text-align: center; margin: 20px;">Latest posts from {{user}}</h2>
+<div id="user_posts"></div>
 {% endblock %}
 {% block style %}
 <style>
@@ -19,7 +21,53 @@
         margin-left: auto;
         margin-right: auto;
         width: 50%;
-        height: 800px;
+        height: 100%;
+    }
+    #user_posts{
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+    #post_div{
+        background-color: #15181c;
+        margin: 10px;
+        border: 1px solid #626262;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    #username{
+        font-size: 1.6em;
+    }
+    #username:hover{
+        font-size: 1.6em;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    #timestamp{
+        font-size: 0.9em;
+        margin-left: 83%;
+    }
+    #content_area{
+        padding: 10px;
+        color:white; 
+        background-color:#21262c; 
+        border: 0.5px solid #626262;
+        border-radius: 10px;
+        margin-top: 5px;
+        width: 100%;
+    }
+    #like_button{
+        padding: 5px;
+        color: white;
+        border: 1px solid #626262;
+        border-radius: 10px;
+        background-color: #21262c;
+    }
+    #like_button:hover{
+        color: rgb(219, 65, 65);
+    }
+    #like_button:focus{
+        outline: none;
     }
 </style>
 

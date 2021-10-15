@@ -18,13 +18,22 @@ class newPostForm(forms.Form):
 def index(request):
     return render(request, "network/index.html")
 
-def posts(request):
-    posts = Post.objects.all()
-    posts = posts.order_by("-timestamp").all()
-    for post in posts:
-        if request.user in post.usersLiked.all():
-            post.liked = True
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+def posts(request, username):
+    if username == "all":
+        posts = Post.objects.all()
+        posts = posts.order_by("-timestamp").all()
+        for post in posts:
+            if request.user in post.usersLiked.all():
+                post.liked = True
+        return JsonResponse([post.serialize() for post in posts], safe=False)
+    else:
+        postsUser = User.objects.get(username = username)
+        posts = Post.objects.filter(user = postsUser).all() 
+        posts = posts.order_by("-timestamp").all()
+        for post in posts:
+            if request.user in post.usersLiked.all():
+                post.liked = True
+        return JsonResponse([post.serialize() for post in posts], safe=False)
 
 def user(request, username):
     try:
@@ -36,13 +45,20 @@ def user(request, username):
         return JsonResponse(user.serialize())
 
     # to follow/ unfollow user
-    # if request.method == 'PUT':
-    #     data = json.loads(request.body)
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        if data.get("follow") == True:
+            if request.user in user.following.all():
+                user.following.remove(request.user)
+            else:
+                user.following.add(request.user)
+        user.save()
+        return HttpResponse(status=204)
 
 def profile_page(request, username):
     user = User.objects.get(username=username)
     return render(request, "network/profilepage.html",{
-        "user": username
+        "user": user
     })
         
         
