@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function(){ 
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
     document.querySelector('#following').addEventListener('click', () => load_posts('following'));

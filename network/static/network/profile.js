@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
+    document.querySelector('#following').style.display = 'none';
     user = document.querySelector('#user_profile').innerHTML
     fetch(`/user/${user}`)
     .then(response => response.json())
@@ -25,14 +26,19 @@ function follow(username){
         })
     })
     .then(()=>{
-        location.reload();
-        //document.querySelector('#followers_div').innerHTML = `followers: ${followers.length}`;
-        // follow_btn = document.querySelector('button').innerHTML
-        // if( follow_btn == 'follow'){
-        //     document.querySelector('button').innerHTML = 'unfollow';
-        // }else{
-        //     document.querySelector('button').innerHTML = 'follow';
-        // }
+        fetch(`/user/${username}`)
+        .then(response => response.json())
+        .then(updated_user => {
+        followers = updated_user.followers
+        follow_btn = document.querySelector('button').innerHTML
+        document.querySelector('#followers_div').innerHTML = `followers: ${followers.length}`;
+        if( follow_btn == 'follow'){
+            document.querySelector('button').innerHTML = 'unfollow';
+        }else{
+            document.querySelector('button').innerHTML = 'follow';
+        }
+        })
+        
     })
 }
 
