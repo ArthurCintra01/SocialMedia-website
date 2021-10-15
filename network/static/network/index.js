@@ -75,7 +75,7 @@ function create_post(event){
     });
 }
 
-function like_post(post, btn){
+function like_post(post){
         fetch(`/post/${post.id}`,{
             method: 'PUT',
             body: JSON.stringify({
