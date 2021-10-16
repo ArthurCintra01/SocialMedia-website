@@ -22,10 +22,10 @@ def index(request):
 def posts(request, username):
     if username == "all":
         posts = Post.objects.all()
-        # p = Paginator(Post.objects.all(),2)
-        # page = request.GET.get('page')
-        #posts = p.get_page(page)
         posts = posts.order_by("-timestamp").all()
+        p = Paginator(posts,10)
+        page = request.GET.get('page')
+        posts = p.get_page(page)
         for post in posts:
             if request.user in post.usersLiked.all():
                 post.liked = True
@@ -100,19 +100,18 @@ def profile_page(request, username):
 @login_required
 def add(request):
     # check if request method is post
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
-    # Get contents of post 
-    data = json.loads(request.body)
-    user= request.user
-    content= data.get("content", "")
-    # Create post
-    post = Post(
-        user = user,
-        content = content,
-    )
-    post.save()
-    return JsonResponse({"message": "New post created"}, status=201)
+    if request.method == "POST":
+        # Get contents of post 
+        data = json.loads(request.body)
+        user= request.user
+        content= data.get("content", "")
+        # Create post
+        post = Post(
+            user = user,
+            content = content,
+        )
+        post.save()
+        return JsonResponse({"message": "New post created"}, status=201)
         
 
 @login_required
@@ -123,6 +122,12 @@ def post(request, post_id):
         user = request.user
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        post.content = data.get("content")
+        post.save()
+        return HttpResponse(status=204)
 
     if request.method == 'PUT':
         data = json.loads(request.body)
