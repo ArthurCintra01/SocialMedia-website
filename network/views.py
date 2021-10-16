@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 import json
+from django.core.paginator import Paginator
 
 from .models import User, Post
 
@@ -21,6 +22,9 @@ def index(request):
 def posts(request, username):
     if username == "all":
         posts = Post.objects.all()
+        # p = Paginator(Post.objects.all(),2)
+        # page = request.GET.get('page')
+        #posts = p.get_page(page)
         posts = posts.order_by("-timestamp").all()
         for post in posts:
             if request.user in post.usersLiked.all():
