@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function(){
         page--;
         load_posts('all');
     })
-    resize();
+    resize('formfield');
     // by default load posts from page 1
     load_posts('all');
 });
 
-function resize(){
+function resize(textarea){
     // for resizing the text areas
-    const tx = document.getElementsByTagName("textarea");
+    const tx = document.getElementsByClassName(`${textarea}`);
     for (let i = 0; i < tx.length; i++) {
         tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
         tx[i].addEventListener("input", OnInput, false);
@@ -48,7 +48,7 @@ function load_posts(type) {
             let post_div = document.createElement('div');
             post_div.id = "post_div";
             post_div.innerHTML = `<div onclick="profile_page('${user}')" id="username"><strong>${user}</strong></div> 
-            <textarea id="content_area" disabled=true>${content} </textarea><br>
+            <textarea id="content_area" class='content_area' disabled=true>${content} </textarea><br>
             <span id="timestamp">${timestamp}</span><br>`;
             let like_btn = document.createElement('button')
             if (posts[post].liked == true){
@@ -65,6 +65,7 @@ function load_posts(type) {
             post_div.append(like_btn);
             document.querySelector('#posts').append(post_div);
             document.querySelector('#posts').style.display = 'block';
+            resize('content_area');
         }
     })
 
