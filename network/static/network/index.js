@@ -12,9 +12,19 @@ document.addEventListener('DOMContentLoaded', function(){
         page--;
         load_posts('all');
     })
+    resize();
     // by default load posts from page 1
     load_posts('all');
 });
+
+function resize(){
+    // for resizing the text areas
+    const tx = document.getElementsByTagName("textarea");
+    for (let i = 0; i < tx.length; i++) {
+        tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+        tx[i].addEventListener("input", OnInput, false);
+    }
+}
 
 function OnInput() {
     this.style.height = "auto";
@@ -26,8 +36,6 @@ function load_posts(type) {
     if (type == 'following'){
         document.querySelector('h2').innerHTML = "Following";
         document.querySelector('#newPostView').style.display = 'none';
-    }else{
-        document.querySelector('#newPostView').style.display = 'block';
     }
     fetch(`/posts/${type}?page=${page}`)
     .then(response => response.json())
@@ -54,12 +62,6 @@ function load_posts(type) {
             }
             like_btn.id = "like_button";
             like_btn.addEventListener('click', () => like_post(posts[post], like_btn));
-            // for resizing the text areas
-            const tx = document.getElementsByTagName("textarea");
-            for (let i = 0; i < tx.length; i++) {
-                tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
-                tx[i].addEventListener("input", OnInput, false);
-            }
             post_div.append(like_btn);
             document.querySelector('#posts').append(post_div);
             document.querySelector('#posts').style.display = 'block';

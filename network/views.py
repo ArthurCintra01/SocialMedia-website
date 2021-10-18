@@ -34,6 +34,7 @@ def posts(request, username):
         following_posts = []
         user = request.user
         posts = Post.objects.all()
+        posts = posts.order_by("-timestamp").all()
         for post in posts:
             if post.user in user.following.all():
                 following_posts.append(post)
