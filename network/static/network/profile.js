@@ -99,6 +99,15 @@ function load_posts(user){
         }else{
             document.querySelector('#previous_page').disabled = false;
         }
+        fetch('/posts/count')
+        .then(response => response.json())
+        .then(number_pages => {
+            if (page == number_pages){
+                document.querySelector('#next_page').disabled = true;
+            }else{
+                document.querySelector('#next_page').disabled = false;
+            }
+        })
     })
 }
 
