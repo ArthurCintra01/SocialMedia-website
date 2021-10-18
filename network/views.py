@@ -56,6 +56,12 @@ def posts(request, username):
         posts = p.get_page(page)
         # return posts
         return JsonResponse([post.serialize() for post in following_posts], safe=False)
+    # getting the total of posts
+    elif username == "count":
+        posts = Post.objects.all()
+        p = Paginator(posts,10)
+        number_pages = p.num_pages
+        return JsonResponse(number_pages, safe=False)
     else:
         # getting only posts posted by the current user
         postsUser = User.objects.get(username = username)

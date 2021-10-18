@@ -1,4 +1,5 @@
 let page = 1;
+let number_of_posts = 0;
 document.addEventListener('DOMContentLoaded', function(){ 
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
@@ -8,12 +9,14 @@ document.addEventListener('DOMContentLoaded', function(){
         page++;
         load_posts('all');
     })
-    document.querySelector('#last_page').addEventListener('click',function(){
-        page--;
-        load_posts('all');
+    document.querySelector('#previous_page').addEventListener('click',function(){
+        if (page>1){
+            page--;
+            load_posts('all');
+        }
     })
     resize('formfield');
-    // by default load posts from page 1
+    // by default load posts
     load_posts('all');
 });
 
@@ -67,6 +70,20 @@ function load_posts(type) {
             document.querySelector('#posts').style.display = 'block';
             resize('content_area');
         }
+        if (page==1){
+            document.querySelector('#previous_page').disabled = true;
+        }else{
+            document.querySelector('#previous_page').disabled = false;
+        }
+        fetch('/posts/count')
+        .then(response => response.json())
+        .then(number_pages => {
+            if (page == number_pages){
+                document.querySelector('#next_page').disabled = true;
+            }else{
+                document.querySelector('#next_page').disabled = false;
+            }
+        })
     })
 
 }

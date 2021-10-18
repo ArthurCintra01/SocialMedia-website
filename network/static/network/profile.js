@@ -20,9 +20,11 @@ document.addEventListener('DOMContentLoaded', function(){
         page++;
         load_posts('all');
     })
-    document.querySelector('#last_page').addEventListener('click',function(){
-        page--;
-        load_posts('all');
+    document.querySelector('#previous_page').addEventListener('click',function(){
+        if (page>1){
+            page--;
+            load_posts('all');
+        }
     })
     load_posts(user);
 });
@@ -92,6 +94,11 @@ function load_posts(user){
             post_div.append(like_btn);
             document.querySelector('#user_posts').append(post_div);
         }   
+        if (page==1){
+            document.querySelector('#previous_page').disabled = true;
+        }else{
+            document.querySelector('#previous_page').disabled = false;
+        }
     })
 }
 
