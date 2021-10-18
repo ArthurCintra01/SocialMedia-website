@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block body %}
+{% if user.is_authenticated %}
 <h2 style="text-align: center; margin: 20px;">All Posts</h2>
 {% if user.is_authenticated %}
     <div id="newPostView">
@@ -17,7 +18,7 @@
 </div>
 <button id="previous_page" class="btn btn-primary">Previous Page</button>
 <button id="next_page" class="btn btn-primary">Next Page</button>
-
+{% endif %}
 {% endblock %}
 
 {% block style %}
