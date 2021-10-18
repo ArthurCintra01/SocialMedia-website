@@ -1,8 +1,18 @@
+let page = 1;
 document.addEventListener('DOMContentLoaded', function(){ 
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
     document.querySelector('#following').addEventListener('click', () => load_posts('following'));
-    // by default load posts
+    //change pages
+    document.querySelector('#next_page').addEventListener('click',function(){
+        page++;
+        load_posts('all');
+    })
+    document.querySelector('#last_page').addEventListener('click',function(){
+        page--;
+        load_posts('all');
+    })
+    // by default load posts from page 1
     load_posts('all');
 });
 
@@ -11,15 +21,15 @@ function OnInput() {
     this.style.height = (this.scrollHeight) + "px";
   }
 
-function load_posts(page) {
-    if (page == 'following'){
+function load_posts(type) {
+    document.querySelector('#posts').innerHTML = '';
+    if (type == 'following'){
         document.querySelector('h2').innerHTML = "Following";
-        document.querySelector('#posts').innerHTML = '';
         document.querySelector('#newPostView').style.display = 'none';
     }else{
         document.querySelector('#newPostView').style.display = 'block';
     }
-    fetch(`/posts/${page}`)
+    fetch(`/posts/${type}?page=${page}`)
     .then(response => response.json())
     .then(posts => {
         for(const post in posts){

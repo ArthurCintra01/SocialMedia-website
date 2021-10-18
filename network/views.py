@@ -41,6 +41,9 @@ def posts(request, username):
             if request.user in post.usersLiked.all():
                 post.liked = True
             post.save()
+        p = Paginator(posts,10)
+        page = request.GET.get('page')
+        posts = p.get_page(page)
         return JsonResponse([post.serialize() for post in following_posts], safe=False)
     else:
         postsUser = User.objects.get(username = username)
@@ -49,6 +52,9 @@ def posts(request, username):
         for post in posts:
             if request.user in post.usersLiked.all():
                 post.liked = True
+        p = Paginator(posts,10)
+        page = request.GET.get('page')
+        posts = p.get_page(page)
         return JsonResponse([post.serialize() for post in posts], safe=False)
 
 

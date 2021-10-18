@@ -13,6 +13,8 @@
 {% endif %}
 <h2 style="text-align: center; margin: 20px;">Latest posts from {{profile_user}}</h2>
 <div id="user_posts"></div>
+<button id="last_page" class="btn btn-primary">Last Page</button>
+<button id="next_page" class="btn btn-primary">Next Page</button>
 {% endblock %}
 {% block style %}
 <style>
@@ -85,6 +87,16 @@
     }
     #like_button:focus{
         outline: none;
+    }
+    #last_page{
+        margin-left: 63%;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    #next_page{
+        display:inline-block;
+        margin-bottom: 20px;
+        margin-top: 10px;
     }
 </style>
 

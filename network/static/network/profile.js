@@ -1,3 +1,4 @@
+let page=1;
 document.addEventListener('DOMContentLoaded', function(){
     document.querySelector('#following').style.display = 'none';
     user = document.querySelector('#user_profile').innerHTML
@@ -14,6 +15,14 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelector('#info').innerHTML = `<div id="followers_div">followers: ${followers.length}</div> 
         <button onclick="follow('${user}')" id="follow_btn">${followingbtn}</button>
         <div>following: ${following.length}</div>`;
+    })
+    document.querySelector('#next_page').addEventListener('click',function(){
+        page++;
+        load_posts('all');
+    })
+    document.querySelector('#last_page').addEventListener('click',function(){
+        page--;
+        load_posts('all');
     })
     load_posts(user);
 });
@@ -48,7 +57,8 @@ function OnInput() {
   }
 
 function load_posts(user){
-    fetch(`/posts/${user}`)
+    document.querySelector('#user_posts').innerHTML = '';
+    fetch(`/posts/${user}?page=${page}`)
     .then(response => response.json())
     .then(posts => {
         for(const post in posts){
