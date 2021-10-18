@@ -35,24 +35,29 @@ function OnInput() {
   }
 
 function load_posts(type) {
+    // cleaning up the old posts
     document.querySelector('#posts').innerHTML = '';
     if (type == 'following'){
         document.querySelector('h2').innerHTML = "Following";
         document.querySelector('#newPostView').style.display = 'none';
     }
+    // getting the new posts
     fetch(`/posts/${type}?page=${page}`)
     .then(response => response.json())
     .then(posts => {
         for(const post in posts){
+            // getting the info for each post
             user = posts[post].user;
             content = posts[post].content;
             timestamp = posts[post].timestamp;
             likes = posts[post].likes;
+            // creating the body of the posts
             let post_div = document.createElement('div');
             post_div.id = "post_div";
             post_div.innerHTML = `<div onclick="profile_page('${user}')" id="username"><strong>${user}</strong></div> 
             <textarea id="content_area" class='content_area' disabled=true>${content} </textarea><br>
             <span id="timestamp">${timestamp}</span><br>`;
+            // adding like button to all posts
             let like_btn = document.createElement('button')
             if (posts[post].liked == true){
                 like_btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
@@ -65,16 +70,20 @@ function load_posts(type) {
             }
             like_btn.id = "like_button";
             like_btn.addEventListener('click', () => like_post(posts[post], like_btn));
+            // appending the like button into the post body
             post_div.append(like_btn);
+            // apending post to the posts div
             document.querySelector('#posts').append(post_div);
             document.querySelector('#posts').style.display = 'block';
             resize('content_area');
         }
+        // disable previous page button if there is none
         if (page==1){
             document.querySelector('#previous_page').disabled = true;
         }else{
             document.querySelector('#previous_page').disabled = false;
         }
+        // disable next page button if there is none
         fetch('/posts/count')
         .then(response => response.json())
         .then(number_pages => {

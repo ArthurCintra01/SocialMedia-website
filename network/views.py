@@ -35,6 +35,7 @@ def posts(request, username):
                 post.liked = True
         # return posts
         return JsonResponse([post.serialize() for post in posts], safe=False)
+
     elif username == "following":
         following_posts = []
         user = request.user
@@ -56,12 +57,15 @@ def posts(request, username):
         posts = p.get_page(page)
         # return posts
         return JsonResponse([post.serialize() for post in following_posts], safe=False)
+
     # getting the total of posts
     elif username == "count":
         posts = Post.objects.all()
         p = Paginator(posts,10)
         number_pages = p.num_pages
         return JsonResponse(number_pages, safe=False)
+
+    # getting posts from specific user
     else:
         # getting only posts posted by the current user
         postsUser = User.objects.get(username = username)
@@ -77,7 +81,6 @@ def posts(request, username):
         posts = p.get_page(page)
         # return posts
         return JsonResponse([post.serialize() for post in posts], safe=False)
-
 
 @csrf_exempt
 def user(request, username):
