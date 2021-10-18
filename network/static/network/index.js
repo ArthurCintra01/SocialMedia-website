@@ -75,7 +75,7 @@ function create_post(event){
     event.preventDefault();
     // get content from form
     const content = document.querySelector('#content').value
-    //send post request to the api to add new post to the database
+    // add post
     fetch('/add',{
         method: 'POST',
         body: JSON.stringify({
