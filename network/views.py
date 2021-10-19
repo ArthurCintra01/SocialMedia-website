@@ -35,6 +35,8 @@ def posts(request, username):
         for post in posts:
             if request.user in post.usersLiked.all():
                 post.liked = True
+            else:
+                post.liked = False
         # return posts
         return JsonResponse([post.serialize() for post in posts], safe=False)
 
