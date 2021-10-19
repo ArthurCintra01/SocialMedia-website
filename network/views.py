@@ -63,6 +63,7 @@ def posts(request, username):
      # getting the total of posts
     elif username == "count":
         posts = Post.objects.all()
+        posts = posts.order_by("-timestamp").all()
         p = Paginator(posts,10)
         number_pages = p.num_pages
         return JsonResponse(number_pages, safe=False)
@@ -72,6 +73,7 @@ def posts(request, username):
         user = request.user
         # getting all posts
         posts = Post.objects.all()
+        posts = posts.order_by("-timestamp").all()
         # getting only posts from users that the current user is following
         for post in posts:
             if post.user in user.following.all():
@@ -146,6 +148,7 @@ def current_user(request):
 def user_posts(request,username):
     user = User.objects.get(username=username)
     posts = Post.objects.filter(user = user).all()
+    posts = posts.order_by("-timestamp").all()
     p = Paginator(posts,10)
     number_pages = p.num_pages
     return JsonResponse(number_pages,safe=False)

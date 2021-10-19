@@ -1,6 +1,13 @@
 let page = 1;
 let type_page = 'all';
+let user_now = '';
 document.addEventListener('DOMContentLoaded', function(){ 
+    // getting user that requested the page
+    fetch('/current_user')
+    .then(response => response.json())
+    .then(current_user => {
+        user_now = current_user;
+    })
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
     document.querySelector('#following').addEventListener('click', () => load_posts('following'));
@@ -59,6 +66,14 @@ function load_posts(type) {
             post_div.innerHTML = `<div onclick="profile_page('${user}')" id="username"><strong>${user}</strong></div> 
             <textarea id="content_area" class='content_area' disabled=true>${content} </textarea><br>
             <span id="timestamp">${timestamp}</span><br>`;
+            // adding edit button to posts of the user
+            if ( posts[post].user == user_now){
+                let edit_btn = document.createElement('button');
+                edit_btn.classList = 'btn btn-primary';
+                edit_btn.id = 'edit_btn';
+                edit_btn.innerHTML = 'Edit';
+                post_div.append(edit_btn);
+            }
             // adding like button to all posts
             let like_btn = document.createElement('button')
             if (posts[post].liked == true){
