@@ -137,7 +137,12 @@ def user(request, username):
         user.save()
         return HttpResponse(status=204)
 
-# number of posts of a user
+# returns the current user
+def current_user(request):
+    user = request.user
+    return JsonResponse(user.username,safe=False)
+
+# returns the number of posts of a user
 def user_posts(request,username):
     user = User.objects.get(username=username)
     posts = Post.objects.filter(user = user).all()
@@ -156,7 +161,6 @@ def profile_page(request, username):
         "profile_user": user,
         "user": request.user
     })
-        
         
 
 @csrf_exempt
@@ -225,8 +229,6 @@ def post(request, post_id):
         post.save()
         # returning the post
         return JsonResponse(post.serialize())
-
-
 
 
 def login_view(request):
