@@ -152,8 +152,7 @@ function edit_post(content_area,post){
                 content: content_area.value
             })
         })
-    }
-    
+    }   
 }
 
 function create_post(event){
