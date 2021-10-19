@@ -106,7 +106,7 @@ function load_posts(user){
             document.querySelector('#previous_page').disabled = false;
         }
         // disable next page button if there is none
-        fetch('/posts/count')
+        fetch(`/user_posts/${user}`)
         .then(response => response.json())
         .then(number_pages => {
             if (page == number_pages){

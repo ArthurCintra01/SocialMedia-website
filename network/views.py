@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core import paginator
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
@@ -52,16 +53,30 @@ def posts(request, username):
                 post.liked = True
             post.save()
         # pagination
-        p = Paginator(posts,10)
+        p = Paginator(following_posts,10)
         page = request.GET.get('page')
-        posts = p.get_page(page)
+        following_posts = p.get_page(page)
         # return posts
         return JsonResponse([post.serialize() for post in following_posts], safe=False)
-
-    # getting the total of posts
+    
+     # getting the total of posts
     elif username == "count":
         posts = Post.objects.all()
         p = Paginator(posts,10)
+        number_pages = p.num_pages
+        return JsonResponse(number_pages, safe=False)
+
+    elif username=="following_count":
+        following_posts = []
+        user = request.user
+        # getting all posts
+        posts = Post.objects.all()
+        # getting only posts from users that the current user is following
+        for post in posts:
+            if post.user in user.following.all():
+                following_posts.append(post)
+        # pagination
+        p = Paginator(following_posts,10)
         number_pages = p.num_pages
         return JsonResponse(number_pages, safe=False)
 
@@ -81,15 +96,13 @@ def posts(request, username):
         posts = p.get_page(page)
         # return posts
         return JsonResponse([post.serialize() for post in posts], safe=False)
+    
 
 @csrf_exempt
 def user(request, username):
     # get user by it's username
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return JsonResponse({"error": "User not found."}, status=404)
-
+    user = User.objects.get(username=username)
+    
     if request.method == 'GET':
         # see if the user is being followed by the current user
         if request.user in user.followers.all():
@@ -121,6 +134,15 @@ def user(request, username):
         current_user.save()
         user.save()
         return HttpResponse(status=204)
+
+# number of posts of a user
+def user_posts(request,username):
+    user = User.objects.get(username=username)
+    posts = Post.objects.filter(user = user).all()
+    p = Paginator(posts,10)
+    number_pages = p.num_pages
+    return JsonResponse(number_pages,safe=False)
+
 
 @login_required
 @csrf_exempt

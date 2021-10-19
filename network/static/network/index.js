@@ -1,5 +1,4 @@
 let page = 1;
-let number_of_posts = 0;
 document.addEventListener('DOMContentLoaded', function(){ 
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
@@ -45,6 +44,7 @@ function load_posts(type) {
     fetch(`/posts/${type}?page=${page}`)
     .then(response => response.json())
     .then(posts => {
+        num = posts.length;
         for(const post in posts){
             // getting the info for each post
             user = posts[post].user;
@@ -84,15 +84,30 @@ function load_posts(type) {
             document.querySelector('#previous_page').disabled = false;
         }
         // disable next page button if there is none
-        fetch('/posts/count')
-        .then(response => response.json())
-        .then(number_pages => {
-            if (page == number_pages){
-                document.querySelector('#next_page').disabled = true;
-            }else{
-                document.querySelector('#next_page').disabled = false;
-            }
-        })
+        //for all posts
+        if (type == 'all'){
+            fetch('/posts/count')
+            .then(response => response.json())
+            .then(number_pages => {
+                if (page == number_pages){
+                    document.querySelector('#next_page').disabled = true;
+                }else{
+                    document.querySelector('#next_page').disabled = false;
+                }
+            })
+        // for following posts
+        }else if( type == 'following'){
+            fetch('/posts/following_count')
+            .then(response => response.json())
+            .then(number_pages => {
+                if (page == number_pages){
+                    document.querySelector('#next_page').disabled = true;
+                }else{
+                    document.querySelector('#next_page').disabled = false;
+                }
+            })
+        }
+        
     })
 
 }
