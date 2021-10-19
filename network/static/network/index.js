@@ -75,7 +75,7 @@ function load_posts(type) {
                 let edit_btn = document.createElement('button');
                 edit_btn.id = 'edit_btn';
                 edit_btn.innerHTML = 'edit post';
-                edit_btn.addEventListener('click', () => edit_post(content_area,posts[post]));
+                edit_btn.addEventListener('click', () => edit_post(content_area,posts[post],edit_btn));
                 post_div.append(edit_btn);
             }
             //appending content area to post div
@@ -140,11 +140,14 @@ function load_posts(type) {
 
 }
 
-function edit_post(content_area,post){
+function edit_post(content_area,post,edit_btn){
     if(content_area.disabled == true){
+        edit_btn.innerHTML = 'save post';
         content_area.disabled = false;
         content_area.focus();
+        
     }else{
+        edit_btn.innerHTML = 'edit post';
         content_area.disabled = true;
         fetch(`/post/${post.id}`,{
             method: 'POST',
