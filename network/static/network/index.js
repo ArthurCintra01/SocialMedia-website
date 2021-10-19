@@ -63,17 +63,28 @@ function load_posts(type) {
             // creating the body of the posts
             let post_div = document.createElement('div');
             post_div.id = "post_div";
-            post_div.innerHTML = `<div onclick="profile_page('${user}')" id="username"><strong>${user}</strong></div> 
-            <textarea id="content_area" class='content_area' disabled=true>${content} </textarea><br>
-            <span id="timestamp">${timestamp}</span><br>`;
+            post_div.innerHTML = `<div onclick="profile_page('${user}')" id="username"><strong>${user}</strong></div>`;
+             // adding content area
+             let content_area = document.createElement('textarea');
+             content_area.id = 'content_area';
+             content_area.classList = 'content_area';
+             content_area.disabled = true;
+             content_area.innerHTML = `${content}`;
             // adding edit button to posts of the user
             if ( posts[post].user == user_now){
                 let edit_btn = document.createElement('button');
-                edit_btn.classList = 'btn btn-primary';
                 edit_btn.id = 'edit_btn';
-                edit_btn.innerHTML = 'Edit';
+                edit_btn.innerHTML = 'edit post';
+                edit_btn.addEventListener('click', () => edit_post(content_area));
                 post_div.append(edit_btn);
             }
+            //appending content area to post div
+            post_div.append(content_area);
+            // adding timestamp
+            let timestamp_span = document.createElement('span');
+            timestamp_span.id = 'timestamp';
+            timestamp_span.innerHTML = `${timestamp}<br>`;
+            post_div.append(timestamp_span);
             // adding like button to all posts
             let like_btn = document.createElement('button')
             if (posts[post].liked == true){
@@ -127,6 +138,16 @@ function load_posts(type) {
         
     })
 
+}
+
+function edit_post(content_area){
+    if(content_area.disabled == true){
+        content_area.disabled = false;
+        content_area.focus();
+    }else{
+        content_area.disabled = true;
+    }
+    
 }
 
 function create_post(event){

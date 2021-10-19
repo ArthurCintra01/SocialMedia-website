@@ -1,5 +1,12 @@
 let page=1;
+let user_now = '';
 document.addEventListener('DOMContentLoaded', function(){
+     // getting user that requested the page
+     fetch('/current_user')
+     .then(response => response.json())
+     .then(current_user => {
+         user_now = current_user;
+     })
     document.querySelector('#following').style.display = 'none';
     user = document.querySelector('#user_profile').innerHTML
     fetch(`/user/${user}`)
@@ -77,6 +84,14 @@ function load_posts(user){
             post_div.innerHTML = `<div id="username"><strong>${user}</strong></div> 
             <textarea id="content_area" disabled=true>${content} </textarea><br>
             <span id="timestamp">${timestamp}</span><br>`;
+            // adding edit button to posts of the user
+            if ( posts[post].user == user_now){
+                let edit_btn = document.createElement('button');
+                edit_btn.classList = 'btn btn-primary';
+                edit_btn.id = 'edit_btn';
+                edit_btn.innerHTML = 'Edit';
+                post_div.append(edit_btn);
+            }
             // adding like button
             let like_btn = document.createElement('button')
             if (posts[post].liked == true){
