@@ -1,4 +1,5 @@
 let page = 1;
+let type_page = 'all';
 document.addEventListener('DOMContentLoaded', function(){ 
     document.querySelector('#new_post_form').addEventListener('submit', create_post);
     document.querySelector('#content').value = '';
@@ -6,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function(){
     //change pages
     document.querySelector('#next_page').addEventListener('click',function(){
         page++;
-        load_posts('all');
+        load_posts(type_page);
     })
     document.querySelector('#previous_page').addEventListener('click',function(){
         if (page>1){
             page--;
-            load_posts('all');
+            load_posts(type_page);
         }
     })
     resize('formfield');
@@ -37,6 +38,7 @@ function load_posts(type) {
     // cleaning up the old posts
     document.querySelector('#posts').innerHTML = '';
     if (type == 'following'){
+        type_page = 'following';
         document.querySelector('h2').innerHTML = "Following";
         document.querySelector('#newPostView').style.display = 'none';
     }

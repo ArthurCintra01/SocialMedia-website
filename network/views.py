@@ -20,6 +20,7 @@ class newPostForm(forms.Form):
 def index(request):
     return render(request, "network/index.html")
 
+@login_required
 def posts(request, username):
     if username == "all":
         # getting the posts
@@ -98,6 +99,7 @@ def posts(request, username):
         return JsonResponse([post.serialize() for post in posts], safe=False)
     
 
+@login_required
 @csrf_exempt
 def user(request, username):
     # get user by it's username
