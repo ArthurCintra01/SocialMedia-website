@@ -100,7 +100,7 @@ function load_posts(type) {
             like_btn.addEventListener('click', () => like_post(posts[post], like_btn));
             // appending the like button into the post body
             post_div.append(like_btn);
-            // apending post to the posts div
+            // appending post to the posts div
             document.querySelector('#posts').append(post_div);
             document.querySelector('#posts').style.display = 'block';
             resize('content_area');
